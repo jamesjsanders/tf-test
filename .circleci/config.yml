@@ -21,6 +21,9 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
+      - persist_to_workspace:
+          root: ~/.aws
+          paths: .
   workspace:
     <<: *defaults
     steps:
@@ -30,6 +33,9 @@ jobs:
           command: terraform workspace select dev
       - persist_to_workspace:
           root: ~/repo
+          paths: .
+      - persist_to_workspace:
+          root: ~/.aws
           paths: .
   plan:
     <<: *defaults
@@ -45,7 +51,12 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
+      - persist_to_workspace:
+          root: ~/.aws
+          paths: .
   apply:
+    requires:
+      - hold
     <<: *defaults
     steps:
       - attach_workspace:
@@ -59,6 +70,9 @@ jobs:
       - store_artifacts:
           path: ~/repo/tfresult
           destination: tfresult
+      - persist_to_workspace:
+          root: ~/.aws
+          paths: .
 
 workflows:
   version: 2
