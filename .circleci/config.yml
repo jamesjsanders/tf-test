@@ -14,7 +14,7 @@ jobs:
       - checkout
       - run:
           name: aws auth
-          command: mkdir ~/.aws; echo $AWS_CREDENTIALS > ~/.aws/credentials
+          command: mkdir ~/.aws; echo -e "[default]\naws_access_key_id=$AWS_KEY\naws_secret_access_key=$AWS_SECRET\n" > ~/.aws/credentials
       - run:
           name: init
           command: terraform init -input=false
