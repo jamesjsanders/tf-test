@@ -24,23 +24,6 @@ jobs:
       - persist_to_workspace:
           root: ~/.aws
           paths: .
-  workspace:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - attach_workspace:
-          at: ~/.aws
-      - checkout
-      - run:
-          name: init
-          command: terraform workspace select dev
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
-      - persist_to_workspace:
-          root: ~/.aws
-          paths: .
   plan:
     <<: *defaults
     steps:
@@ -48,6 +31,9 @@ jobs:
           at: ~/repo
       - attach_workspace:
           at: ~/.aws
+      - run:
+          name: select workspace
+          command: terraform workspace select dev
       - run:
           name: plan
           command: terraform plan -no-color -out=tfplan -input=false
@@ -70,6 +56,9 @@ jobs:
       - attach_workspace:
           at: ~/.aws
       - run:
+          name: select workspace
+          command: terraform workspace select dev
+      - run:
           name: apply
           command: terraform apply -input=false -auto-approve tfplan
       - run:
@@ -87,9 +76,6 @@ workflows:
   build_deploy:
     jobs:
       - init
-      - workspace:
-          requires:
-            - init
       - plan:
           requires:
             - init
