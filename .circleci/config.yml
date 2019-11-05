@@ -27,6 +27,8 @@ jobs:
   workspace:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: ~/repo
       - checkout
       - run:
           name: init
