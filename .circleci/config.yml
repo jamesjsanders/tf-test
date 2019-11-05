@@ -6,7 +6,6 @@ defaults: &defaults
     - image: gumshoe/cci-terraform:0.0.1-alpha
   environment:
     TF_IN_AUTOMATION: true
-    GOOGLE_APPLICATION_CREDENTIALS: ~/repo/terraform-deploy.json
 
 jobs:
   init:
@@ -14,8 +13,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: gcp auth
-          command: echo $GCP_CREDENTIALS > terraform-deploy.json
+          name: aws auth
+          command: mkdir ~/.aws; echo $AWS_CREDENTIALS > ~/.aws/credentials
       - run:
           name: init
           command: terraform init -input=false
