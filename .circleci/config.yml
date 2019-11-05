@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: gumshoe/cci-terraform:0.0.1-alpha
+    - image: hashicorp/terraform:0.12.13
   environment:
     TF_IN_AUTOMATION: true
 
