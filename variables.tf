@@ -1,3 +1,14 @@
+variable "tags" {
+  description = "Set of tags for provisioned resources"
+  type        = "map"
+
+  default = {
+    Product   = "tf-testing"
+    Repo      = "tf-test"
+    Terraform = "true"
+  }
+}
+
 locals {
   env_variables = {
     default = {}
