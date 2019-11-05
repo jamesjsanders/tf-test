@@ -46,6 +46,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - attach_workspace:
+          at: ~/.aws
       - run:
           name: plan
           command: terraform plan -no-color -out=tfplan -input=false
@@ -65,6 +67,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - attach_workspace:
+          at: ~/.aws
       - run:
           name: apply
           command: terraform apply -input=false -auto-approve tfplan
