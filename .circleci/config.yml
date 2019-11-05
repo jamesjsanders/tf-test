@@ -29,6 +29,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - attach_workspace:
+          at: ~/.aws
       - checkout
       - run:
           name: init
