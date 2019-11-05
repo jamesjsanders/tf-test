@@ -27,58 +27,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: gcp auth
-          command: echo $GCP_CREDENTIALS > terraform-deploy.json
-      - run:
           name: init
           command: terraform workspace select dev
       - persist_to_workspace:
           root: ~/repo
           paths: .
-  plan:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: plan
-          command: terraform plan -no-color -out=tfplan -input=false
-      - store_artifacts:
-          path: ~/repo/tfplan
-          destination: tfplan
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
-  apply:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: apply
-          command: terraform apply -input=false -auto-approve tfplan
-      - run:
-          name: show
-          command: terraform show -no-color > tfresult
-      - store_artifacts:
-          path: ~/repo/tfresult
-          destination: tfresult
-
-workflows:
-  version: 2
-  build_deploy:
-    jobs:
-      - init
-      - plan:
-          requires:
-            - init
-      - apply:
-          requires:
-            - plan
-          filters:
-            branches:
-              only: 
-                - master
   plan:
     <<: *defaults
     steps:
